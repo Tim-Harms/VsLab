@@ -14,6 +14,8 @@
 		<struts2.version>2.5-BETA3</struts2.version>
         <log4j2.version>2.5</log4j2.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!--<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>-->
 	</properties>
 
 	<dependencies>
@@ -73,4 +75,16 @@
 
 
  	</dependencies>
+	<build>
+	<plugins>
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<version>3.8.0</version>
+		<!--<configuration>
+			<release>10</release>
+		</configuration>-->
+	</plugin>
+	</plugins>
+	</build>
 </project>

@@ -7,6 +7,10 @@ import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
 import hska.iwi.eShopMaster.model.database.dataobjects.Category;
 import hska.iwi.eShopMaster.model.database.dataobjects.User;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +27,8 @@ public class AddProductAction extends ActionSupport {
 	private String details = null;
 	private List<Category> categories;
 
+	private static HttpURLConnection connection;
+
 	public String execute() throws Exception {
 		String result = "input";
 		Map<String, Object> session = ActionContext.getContext().getSession();
@@ -30,13 +36,35 @@ public class AddProductAction extends ActionSupport {
 
 		if(user != null && (user.getRole().getTyp().equals("admin"))) {
 
-			ProductManager productManager = new ProductManagerImpl();
+			String urlstring = "http://localhost:8080/api/products?name=" + name + "?price=" + price + "?categoryId=" + categoryId + "?details=" + details;
+			//urlstring = "http://localhost:8081/apic/categories?name=testcatRestAPI";
+
+			try {
+				URL url = new URL(urlstring);
+				connection = (HttpURLConnection) url.openConnection();
+
+				//Request setup
+				connection.setRequestMethod("POST");
+				connection.setConnectTimeout(5000);
+				connection.setReadTimeout(5000);
+
+				int status = connection.getResponseCode();
+				System.out.println(status);
+
+				result = "success";
+
+			} catch (MalformedURLException e){
+				e.printStackTrace();
+			} catch (IOException e){
+				e.printStackTrace();
+			}
+			/*ProductManager productManager = new ProductManagerImpl();
 			int productId = productManager.addProduct(name, Double.parseDouble(price), categoryId,
 					details);
 
 			if (productId > 0) {
 				result = "success";
-			}
+			}*/
 		}
 
 		return result;
@@ -45,23 +73,29 @@ public class AddProductAction extends ActionSupport {
 	@Override
 	public void validate() {
 		CategoryManager categoryManager = new CategoryManagerImpl();
-		this.setCategories(categoryManager.getCategories());
-		// Validate name:
 
-		if (getName() == null || getName().length() == 0) {
-			addActionError(getText("error.product.name.required"));
-		}
+		try{
+			this.setCategories(categoryManager.getCategories());
+			// Validate name:
 
-		// Validate price:
-
-		if (String.valueOf(getPrice()).length() > 0) {
-			if (!getPrice().matches("[0-9]+(.[0-9][0-9]?)?")
-					|| Double.parseDouble(getPrice()) < 0.0) {
-				addActionError(getText("error.product.price.regex"));
+			if (getName() == null || getName().length() == 0) {
+				addActionError(getText("error.product.name.required"));
 			}
-		} else {
+
+			// Validate price:
+
+			if (String.valueOf(getPrice()).length() > 0) {
+				if (!getPrice().matches("[0-9]+(.[0-9][0-9]?)?")
+						|| Double.parseDouble(getPrice()) < 0.0) {
+					addActionError(getText("error.product.price.regex"));
+				}
+			} else {
+				addActionError(getText("error.product.price.required"));
+			}
+		} catch(Exception e){
 			addActionError(getText("error.product.price.required"));
 		}
+
 	}
 
 	public String getName() {

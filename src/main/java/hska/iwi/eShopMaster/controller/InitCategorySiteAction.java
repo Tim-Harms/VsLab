@@ -23,7 +23,7 @@ public class InitCategorySiteAction extends ActionSupport {
 
 	private List<Category> categories;
 
-	public String execute() throws Exception {
+	public String execute() {
 		
 		String res = "input";
 
@@ -33,16 +33,22 @@ public class InitCategorySiteAction extends ActionSupport {
 		if(user != null && isAdmin) {
 
 			CategoryManager categoryManager = new CategoryManagerImpl();
-			this.setCategories(categoryManager.getCategories());
-			
-			if(pageToGoTo != null){
-				if(pageToGoTo.equals("c")){
-					res = "successC";	
+
+			try{
+				this.setCategories(categoryManager.getCategories());
+
+				if(pageToGoTo != null){
+					if(pageToGoTo.equals("c")){
+						res = "successC";
+					}
+					else if(pageToGoTo.equals("p")){
+						res = "successP";
+					}
 				}
-				else if(pageToGoTo.equals("p")){
-					res = "successP";
-				}				
+			} catch(Exception e){
+				addActionError(getText("error.getcategories.failed"));
 			}
+
 		}
 		
 		return res;

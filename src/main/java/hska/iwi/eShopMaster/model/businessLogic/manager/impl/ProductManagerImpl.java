@@ -36,18 +36,22 @@ public class ProductManagerImpl implements ProductManager {
 		int productId = -1;
 		
 		CategoryManager categoryManager = new CategoryManagerImpl();
-		Category category = categoryManager.getCategory(categoryId);
-		
-		if(category != null){
-			Product product;
-			if(details == null){
-				product = new Product(name, price, category);	
-			} else{
-				product = new Product(name, price, category, details);
+		try{
+			Category category = categoryManager.getCategory(categoryId);
+
+			if(category != null){
+				Product product;
+				if(details == null){
+					product = new Product(name, price, category);
+				} else{
+					product = new Product(name, price, category, details);
+				}
+
+				helper.saveObject(product);
+				productId = product.getId();
 			}
-			
-			helper.saveObject(product);
-			productId = product.getId();
+		}catch(Exception e){
+			return -1;
 		}
 			 
 		return productId;

@@ -5,6 +5,9 @@ import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.database.dataAccessObjects.CategoryDAO;
 import hska.iwi.eShopMaster.model.database.dataobjects.Category;
 
+import java.io.DataOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 public class CategoryManagerImpl implements CategoryManager{
@@ -26,9 +29,18 @@ public class CategoryManagerImpl implements CategoryManager{
 		return helper.getObjectByName(name);
 	}
 
-	public void addCategory(String name) {
-		Category cat = new Category(name);
-		helper.saveObject(cat);
+	public void addCategory(String name) throws Exception{
+
+		URL url = new URL("http://category:8081/apic/categories?name=" + name + "Test");
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setDoOutput(true);
+		con.setRequestMethod("POST");
+		DataOutputStream wr = new DataOutputStream (
+				con.getOutputStream());
+		wr.close();
+
+		if(con.getResponseCode() > 299)
+			throw new Exception();
 
 	}
 

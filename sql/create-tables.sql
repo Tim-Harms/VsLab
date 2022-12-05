@@ -1,8 +1,16 @@
+CREATE DATABASE IF NOT EXISTS `categorydb`;
+CREATE DATABASE IF NOT EXISTS `productdb`;
+CREATE DATABASE IF NOT EXISTS `webshop`;
+
+USE categorydb;
+
 CREATE TABLE category (
 	id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
+
+USE webshop;
 
 CREATE TABLE role (
 	id INT NOT NULL AUTO_INCREMENT,
@@ -10,6 +18,8 @@ CREATE TABLE role (
 	type VARCHAR(255),
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
+
+USE productdb;
 
 CREATE TABLE product (
 	id INT NOT NULL AUTO_INCREMENT,
@@ -19,6 +29,8 @@ CREATE TABLE product (
 	category_id INT,
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
+
+USE webshop;
 
 CREATE TABLE customer (
 	id INT NOT NULL AUTO_INCREMENT,

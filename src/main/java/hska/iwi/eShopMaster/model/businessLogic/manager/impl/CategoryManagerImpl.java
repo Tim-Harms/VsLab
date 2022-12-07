@@ -48,6 +48,20 @@ public class CategoryManagerImpl implements CategoryManager{
 	
 // 		Products are also deleted because of relation in Category.java 
 		helper.deleteById(cat.getId());
+/*		try {
+			URL url = new URL("http://category:8081/apic/categories?id=" + id);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setDoOutput(true);
+			con.setRequestMethod("DELETE");
+			DataOutputStream wr = new DataOutputStream(
+					con.getOutputStream());
+			wr.close();
+
+			if(con.getResponseCode() > 299)
+				throw new Exception();
+		} catch(Exception e){
+			e.printStackTrace();
+		}*/
 	}
 
 	public void delCategoryById(int id) {

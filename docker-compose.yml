@@ -17,6 +17,15 @@ services:
       local_dev_net:
           aliases:
               - categoryservice
+              
+  productservice:
+    image: productservice
+    ports:
+      - "8082:8082"
+    networks:
+      local_dev_net:
+          aliases:
+              - productservice
 
   web-shop-db-image:
     image: mavogel/hska-vis-web-shop-db-image
@@ -24,6 +33,9 @@ services:
       - "./.data/db:/var/lib/mysql"
     environment:
       MYSQL_ROOT_PASSWORD: c8de110f37300a53a971749
+      MYSQL_DATABASE: webshop
+      MYSQL_USER: webshopuser
+      MYSQL_PASSWORD: 240b2c6d58ff2ce2f508b49f
     ports:
       - "3306:3306"
     networks:

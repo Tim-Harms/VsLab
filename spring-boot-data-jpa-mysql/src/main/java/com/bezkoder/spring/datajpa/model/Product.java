@@ -8,7 +8,7 @@ import java.util.UUID;
  * This class contains details about products.
  */
 @Entity
-@Table(name = "product")
+@Table(name = "testproduct")
 public class Product implements java.io.Serializable {
 
 	/**

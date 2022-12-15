@@ -22,18 +22,19 @@ public class ListAllProductsAction extends ActionSupport {
 	private List<Product> products;
 	
 	public String execute() throws Exception{
+		System.out.println("ListAllProductsAction");
 		String result = "input";
-		
+
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		user = (User) session.get("webshop_user");
-		
+
 		if(user != null){
-			/*System.out.println("list all products!");
+			System.out.println("list all products!");
 			ProductManager productManager = new ProductManagerImpl();
 			this.products = productManager.getProducts();
-			result = "success";*/
+			result = "success";
 		}
-		
+
 		return result;
 	}
 	

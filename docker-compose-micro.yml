@@ -12,7 +12,9 @@ services:
               - legacywebshop
               
   categoryservice:
-    image: categoryservice
+    build:
+      context: ./spring-boot-category/
+      dockerfile: ./docker/Dockerfile
     ports:
       - "8081:8081"
     networks:
@@ -21,7 +23,9 @@ services:
               - categoryservice
               
   productservice:
-    image: productservice
+    build:
+      context: ./spring-boot-data-jpa-mysql/
+      dockerfile: ./docker/Dockerfile
     ports:
       - "8082:8082"
     networks:

@@ -6,7 +6,7 @@ import javax.persistence.*;
  * This class contains details about categories.
  */
 @Entity
-@Table(name = "category")
+@Table(name = "testcategory")
 public class Category implements java.io.Serializable {
 
 	/**

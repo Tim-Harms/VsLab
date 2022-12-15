@@ -25,52 +25,30 @@ public class DeleteCategoryAction extends ActionSupport {
 	private int catId;
 	private List<Category> categories;
 
-	private static HttpURLConnection connection;
-
 	public String execute() {
-		
+
 		String res = "input";
-		
+
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		User user = (User) session.get("webshop_user");
-		
+
 		if(user != null && (user.getRole().getTyp().equals("admin"))) {
 
-			String urlstring = "http://localhost:8081/apic/categories?id=" + catId;
-			//urlstring = "http://localhost:8081/apic/categories?name=testcatRestAPI";
+			// Helper inserts new Category in DB:
+			CategoryManager categoryManager = new CategoryManagerImpl();
 
 			try {
-				URL url = new URL(urlstring);
-				connection = (HttpURLConnection) url.openConnection();
-
-				//Request setup
-				connection.setRequestMethod("DELETE");
-				connection.setConnectTimeout(5000);
-				connection.setReadTimeout(5000);
-
-				int status = connection.getResponseCode();
-				System.out.println(status);
-
-				res = "success";
-
-			} catch (MalformedURLException e){
-				e.printStackTrace();
-			} catch (IOException e){
+				categoryManager.delCategoryById(catId);
+                categories = categoryManager.getCategories();
+			}catch(Exception e){
+                System.out.println("AddCategoryAction execute failed");
 				e.printStackTrace();
 			}
-			/*// Helper inserts new Category in DB:
-			CategoryManager categoryManager = new CategoryManagerImpl();
-		
-			categoryManager.delCategoryById(catId);
 
-			categories = categoryManager.getCategories();
-				
-			res = "success";*/
-
+			res = "success";
 		}
-		
+
 		return res;
-		
 	}
 
 	public int getCatId() {

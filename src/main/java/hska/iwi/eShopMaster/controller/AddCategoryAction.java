@@ -1,5 +1,6 @@
 package hska.iwi.eShopMaster.controller;
 
+import com.opensymphony.xwork2.ActionContext;
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.CategoryManagerImpl;
 import hska.iwi.eShopMaster.model.database.dataobjects.Category;
@@ -11,7 +12,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+import java.util.Map;
 
 
 public class AddCategoryAction extends ActionSupport {
@@ -30,21 +31,44 @@ public class AddCategoryAction extends ActionSupport {
 	private static HttpURLConnection connection;
 
 	public String execute(){
-		String res = "input";
+		/*String res = "input";
 
 			CategoryManager categoryManager = new CategoryManagerImpl();
 			// Add category
 		try {
 			categoryManager.addCategory(newCatName);
-
 			// Go and get new Category list
-			this.setCategories(categoryManager.getCategories());
+			//this.setCategories(categoryManager.getCategories());
 			res = "success";
+			System.out.println("arrived in end of execute method");
 		} catch (Exception e){
 			addActionError(getText("error.addcategory.failed"));
 		}
 
-		return res;
+		return res;*/
+
+        String res = "input";
+
+        Map<String, Object> session = ActionContext.getContext().getSession();
+        user = (User) session.get("webshop_user");
+        if(user != null && (user.getRole().getTyp().equals("admin"))) {
+
+            try {
+                CategoryManager categoryManager = new CategoryManagerImpl();
+                // Add category
+                categoryManager.addCategory(newCatName);
+
+                // Go and get new Category list
+                this.setCategories(categoryManager.getCategories());
+
+                res = "success";
+            } catch(Exception e){
+                System.out.println("AddCategoryAction execute failed");
+                e.printStackTrace();
+            }
+        }
+
+        return res;
 	}
 	
 	@Override

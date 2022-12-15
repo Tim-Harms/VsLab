@@ -2,6 +2,7 @@ package com.bezkoder.spring.datajpa.controller;
 
 import com.bezkoder.spring.datajpa.model.Product;
 import com.bezkoder.spring.datajpa.repository.ProductRepository;
+import com.bezkoder.spring.datajpa.repository.ProductTestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,9 @@ public class ProductController {
 	@Autowired
 	ProductRepository repository;
 
+	@Autowired
+	ProductTestRepository testRepository;
+
 	@PostMapping("/products")
 	public Product addProduct(@RequestParam(value = "name") String name,
 									@RequestParam(value = "price") String price,
@@ -24,12 +28,16 @@ public class ProductController {
 									@RequestParam(value = "details") String details) {
 		Product productToAdd = new Product(name, Double.parseDouble(price), categoryId, details);
 		repository.save(productToAdd);
+		System.out.println("Hello");
 		return productToAdd;
 	}
 
 	@DeleteMapping("/products")
 	public String deleteProduct(@RequestParam(value = "id") String id) {
-		repository.deleteById(UUID.fromString(id));
+		//repository.deleteById(UUID.fromString(id));
+
+		System.out.println("Arrived in deleteproduct Method!");
+		testRepository.deleteById(Integer.parseInt(id));
 		return "success";
 	}
 
@@ -42,7 +50,7 @@ public class ProductController {
 			repository.findAll().forEach(target::add);
 			return target;
 		} else {
-			return repository.findProductsByNameContainingOrPriceGreaterThanOrPriceLessThan(searchQuery, Double.parseDouble(minPrice), Double.parseDouble(maxPrice));
+			return repository.findProductsByNameContainingAndPriceGreaterThanAndPriceLessThan(searchQuery, Double.parseDouble(minPrice), Double.parseDouble(maxPrice));
 		}
 	}
 

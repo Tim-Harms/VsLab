@@ -2,6 +2,7 @@ package com.company.controller;
 
 import com.company.model.Category;
 import com.company.repository.CategoryRepository;
+import com.company.repository.CategoryTestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +20,14 @@ public class CategoryController {
 	@Autowired
 	CategoryRepository repository;
 
+	@Autowired
+	private CategoryTestRepository testRepository;
+
 	@PostMapping("/categories")
 	public Category addCategory(@RequestParam(value = "name") String name) {
-		logger.log(Level.INFO, "adding category " + name);
-		System.out.println("adding category " + name);
+		System.out.println("Arrived in AddCategory");
+		logger.log(Level.INFO, "Logger: adding category " + name);
+		System.out.println("System: adding category " + name);
 		Category categoryToAdd = new Category(name);
 		repository.save(categoryToAdd);
 		return categoryToAdd;
@@ -30,12 +35,16 @@ public class CategoryController {
 
 	@DeleteMapping("/categories")
 	public String deleteCategory(@RequestParam(value = "id") String id) {
-		repository.deleteById(UUID.fromString(id));
+		//repository.deleteById(UUID.fromString(id));
+		//System.out.println("Deleting Category: " + id);
+		System.out.println("Arrived in deletecategory Method!");
+		testRepository.deleteById(Integer.parseInt(id));
 		return "success";
 	}
 
 	@GetMapping("/categories")
 	public List<Category> getCategories() {
+		System.out.println("Arrived in Get Categories Method!");
 		List<Category> target = new ArrayList<>();
 		repository.findAll().forEach(target::add);
 		return target;

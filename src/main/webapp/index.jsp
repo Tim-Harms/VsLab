@@ -33,7 +33,7 @@
 	
 		<div class="jumbotron">
 			<div class="container-fluid">
-				<h1>VS Lab EShop Microservice Architektur</h1>
+				<h1>VS Lab EShop Microservice Architektur 1.6</h1>
 			</div>
 		</div>
 	

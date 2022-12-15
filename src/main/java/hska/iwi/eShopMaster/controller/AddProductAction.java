@@ -30,41 +30,20 @@ public class AddProductAction extends ActionSupport {
 	private static HttpURLConnection connection;
 
 	public String execute() throws Exception {
+		System.out.println("Im here!");
 		String result = "input";
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		User user = (User) session.get("webshop_user");
 
 		if(user != null && (user.getRole().getTyp().equals("admin"))) {
 
-			String urlstring = "http://localhost:8080/api/products?name=" + name + "?price=" + price + "?categoryId=" + categoryId + "?details=" + details;
-			//urlstring = "http://localhost:8081/apic/categories?name=testcatRestAPI";
-
-			try {
-				URL url = new URL(urlstring);
-				connection = (HttpURLConnection) url.openConnection();
-
-				//Request setup
-				connection.setRequestMethod("POST");
-				connection.setConnectTimeout(5000);
-				connection.setReadTimeout(5000);
-
-				int status = connection.getResponseCode();
-				System.out.println(status);
-
-				result = "success";
-
-			} catch (MalformedURLException e){
-				e.printStackTrace();
-			} catch (IOException e){
-				e.printStackTrace();
-			}
-			/*ProductManager productManager = new ProductManagerImpl();
+			ProductManager productManager = new ProductManagerImpl();
 			int productId = productManager.addProduct(name, Double.parseDouble(price), categoryId,
 					details);
 
 			if (productId > 0) {
 				result = "success";
-			}*/
+			}
 		}
 
 		return result;

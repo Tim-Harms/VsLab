@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Product implements java.io.Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -26,7 +26,7 @@ public class Product implements java.io.Serializable {
 	@Column(name = "price")
 	private double price;
 
-	
+
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;

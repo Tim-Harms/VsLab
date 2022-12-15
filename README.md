@@ -51,3 +51,24 @@ Details can be found [here](https://github.com/docker-library/mysql/issues/51)
 ## <a name="license"></a>License
 Copyright (c) 2017-2018 Manuel Vogel
 Source code is open source and released under the MIT license.
+
+
+#Tim Harms Annotations
+
+###Connect Bash to database:
+docker exec -it web-shop-db-image-1 mysql -uroot -pc8de110f37300a53a971749
+
+###Build categoryservice:
+docker build . -t categoryservice -f docker/Dockerfile
+
+###Build productservice (spring-boot-data-jpa-mysql):
+docker build . -t productservice -f docker/Dockerfile
+
+###Run docker compose local:
+docker-compose -f docker-compose-local.yml up -d
+
+###kill all images and containers:
+docker system prune -a
+
+###Remove Images:
+docker image rmi hska-vis-legacy-legacywebshop

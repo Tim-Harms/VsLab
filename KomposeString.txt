@@ -1,0 +1,12 @@
+kubectl apply -f categoryservice-service.yaml,legacywebshop-service.yaml,productservice-service.yaml,web-shop-db-image-service.yaml,categoryservice-deployment.yaml,productservice-deployment.yaml,local_dev_net-networkpolicy.yaml,legacywebshop-deployment.yaml,web-shop-db-image-deployment.yaml,web-shop-db-image-claim0-persistentvolumeclaim.yaml
+
+
+
+
+
+
+kubectl port-forward legacywebshop-96b7f74f6-89vqt 8080:8080
+http://localhost:8080/EShop-1.0.0/
+
+
+D:\Master Semester 3\VSLab\hska-vis-legacy-kubernetes

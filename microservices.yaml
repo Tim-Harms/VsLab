@@ -1,0 +1,195 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: apache
+  name: apache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: apache
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: apache
+    spec:
+      containers:
+      - image: docker.io/timharms/microservice-kubernetes-demo-apache:latest
+        name: apache
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: category
+  name: category
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: category
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: category
+    spec:
+      containers:
+      - image: docker.io/timharms/hska-vis-legacy-categoryservice:latest
+        name: category
+        ports:
+        - containerPort: 8081
+        resources: {}
+status: {}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: product
+  name: product
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: product
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: product
+    spec:
+      containers:
+      - image: docker.io/timharms/hska-vis-legacy-productservice:latest
+        name: product
+        ports:
+        - containerPort: 8082
+        resources: {}
+status: {}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: webshop
+  name: webshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: webshop
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: webshop
+    spec:
+      containers:
+      - image: docker.io/timharms/hska-vis-legacy-legacywebshop:latest
+        name: webshop
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: apache
+  name: apache
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: apache
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: category
+  name: category
+spec:
+  ports:
+  - port: 8081
+    protocol: TCP
+    targetPort: 8081
+  selector:
+    run: category
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: product
+  name: product
+spec:
+  ports:
+  - port: 8082
+    protocol: TCP
+    targetPort: 8082
+  selector:
+    run: product
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: webshop
+  name: webshop
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: webshop
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+  
+

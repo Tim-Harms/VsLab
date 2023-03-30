@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webshopdb
+spec:
+  selector:
+    matchLabels:
+      app: webshopdb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: webshopdb
+    spec:
+      containers:
+      - image: docker.io/timharms/hska-vis-legacy-web-shop-db-image:latest
+        name: webshopdb
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        ports:
+        - containerPort: 3306
+          name: webshopdb
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webshopdb
+spec:
+  type: NodePort
+  ports:
+  - port: 3306
+  selector:
+    app: webshopdb
